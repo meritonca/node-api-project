@@ -31,8 +31,8 @@ authRouter.post("/signup", asyncHandler(async(req,res) => {
 
 
 authRouter.post("/login", asyncHandler(async(req,res) => {
-    let user = await User.findOne({email: user.body.email})
-    if(user) {
+    let user = await User.findOne({email: req.body.email})
+    if(!user) {
         throw new ApiError(400,"Email ose paswordi gabim")
     }
     let krahaso = await bcrypt.compare(req.body.password,user.password)

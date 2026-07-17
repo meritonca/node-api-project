@@ -6,18 +6,21 @@ import authRouter from "./routes/authRoutes.js"
 import studentRouter from "./routes/studentRoutes.js"
 import { errorHandler } from "./middleware/errorHandler.js"
 
+dotenv.config()                    // ← PARA GJITHÇKAJE!
+
 const app = express()
-app.use(express.json())
 app.use(cors())
-dotenv.config()
+app.use(express.json())
 
-mongoose.connect(process.env.MONGO_URL).then(()=> console.log("U lidh")).catch(err => console.log(err.message))
+mongoose.connect(process.env.MONGO_URL)
+    .then(() => console.log("U lidh"))
+    .catch(err => console.log(err.message))
 
-app.use("/api",authRouter)
-app.use("/studentet",studentRouter)
+
+app.use("/auth", authRouter)
+app.use("/studentet", studentRouter)
 app.use(errorHandler)
 
 app.listen(process.env.PORT, () => {
     console.log(`Serveri po punon ne ${process.env.PORT}`)
 })
-
